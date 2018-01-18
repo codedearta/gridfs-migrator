@@ -8,18 +8,24 @@ import java.io.*;
 
 // Server
 @Path("gridfs/{filename}")
-@Produces(MediaType.APPLICATION_XML)
+@Produces(MediaType.APPLICATION_OCTET_STREAM)
 public class GridFSMigratorResource {
+
     @GET
     public Response loadStream(@PathParam("filename") String filename) {
-        StreamingOutput stream = os -> {
+        final String innnerFilename = filename;
+        StreamingOutput stream = new StreamingOutput() {
+            @Override
+            public void write(OutputStream os) throws IOException,
+                    WebApplicationException {
 
-            Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+                Writer writer = new BufferedWriter(new OutputStreamWriter(os));
 
-            // Johns code here ....
-            writer.write("<filename>"+ filename + "</filename>");
+                // Johns code here ....
+                writer.write("<filename>"+ innnerFilename + "</filename>");
 
-            writer.flush();
+                writer.flush();
+            }
         };
         return Response.ok(stream).build();
     }
