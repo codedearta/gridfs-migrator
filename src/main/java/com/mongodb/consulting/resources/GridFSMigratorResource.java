@@ -1,4 +1,6 @@
-package mongodb.com.resources;
+package com.mongodb.consulting.resources;
+
+import com.mongodb.consulting.io.GridFSFileExtractor;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -6,7 +8,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.*;
 
-// Server
 @Path("gridfs/{filename}")
 @Produces(MediaType.APPLICATION_OCTET_STREAM)
 public class GridFSMigratorResource {
@@ -14,6 +15,7 @@ public class GridFSMigratorResource {
     @GET
     public Response loadStream(@PathParam("filename") String filename) {
         final String innnerFilename = filename;
+
         StreamingOutput stream = new StreamingOutput() {
             @Override
             public void write(OutputStream os) throws IOException,
@@ -21,7 +23,8 @@ public class GridFSMigratorResource {
 
                 Writer writer = new BufferedWriter(new OutputStreamWriter(os));
 
-                // Johns code here ....
+                GridFSFileExtractor extractor = new GridFSFileExtractor(null,"bls");
+                ByteArrayOutputStream file = (ByteArrayOutputStream) extractor.getFile("lis", "some.xml", "methrology", os);
                 writer.write("<filename>"+ innnerFilename + "</filename>");
 
                 writer.flush();

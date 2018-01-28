@@ -1,4 +1,4 @@
-package mongodb.com;
+package com.mongodb.consulting;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;

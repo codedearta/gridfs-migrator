@@ -1,10 +1,9 @@
-package mongodb.com;
+package com.mongodb.consulting;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import mongodb.com.resources.GridFSMigratorResource;
-import mongodb.com.resources.HelloWorldResource;
+import com.mongodb.consulting.resources.GridFSMigratorResource;
 
 public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigratorConfiguration> {
 
@@ -27,8 +26,6 @@ public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigrato
                     final Environment environment) {
         final GridFSMigratorResource resource = new GridFSMigratorResource();
         environment.jersey().register(resource);
-        final HelloWorldResource hello = new HelloWorldResource();
-        environment.jersey().register(hello);
     }
 
 }

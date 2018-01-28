@@ -1,4 +1,9 @@
 logging:
   level: INFO
-  loggers:
-    mongodb.com: DEBUG
+  appenders:
+    - type: console
+      threshold: DEBUG
+    - type: file
+      currentLogFilename: ./logs/GridFSFileExtractor.log
+      archivedLogFilenamePattern: ./logs/GridFSFileExtractor-%d.log.gz
+      archivedFileCount: 5
