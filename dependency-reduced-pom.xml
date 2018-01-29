@@ -120,6 +120,32 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.5</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>httpcore</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-codec</artifactId>
+          <groupId>commons-codec</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -130,19 +156,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>io.dropwizard</groupId>
-        <artifactId>dropwizard-testing</artifactId>
-        <version>${dropwizard.version}</version>
-        <scope>test</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <dropwizard.version>0.9.3</dropwizard.version>
     <mainClass>com.mongodb.consulting.AsmlGridfsMigratorApplication</mainClass>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 </project>
 

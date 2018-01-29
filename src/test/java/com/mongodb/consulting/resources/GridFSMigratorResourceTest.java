@@ -10,6 +10,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.bind.DatatypeConverter;
@@ -26,6 +27,7 @@ import static com.mongodb.consulting.resources.GridFSMigratorResource.MD5_HEADER
 public class GridFSMigratorResourceTest {
 
     @Test
+    @Ignore
     public void downloadStream() throws URISyntaxException, IOException, NoSuchAlgorithmException {
         try(CloseableHttpClient client = HttpClients.createDefault()) {
             String bucketName = "fs";
