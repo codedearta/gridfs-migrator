@@ -6,5 +6,16 @@ import org.hibernate.validator.constraints.*;
 import javax.validation.constraints.*;
 
 public class AsmlGridfsMigratorConfiguration extends Configuration {
-    // TODO: implement service configuration
+    @NotEmpty
+    private String mongodbFilePath = "/data/db";
+
+    @JsonProperty
+    public String getMongodbFilePath() {
+        return mongodbFilePath;
+    }
+
+    @JsonProperty
+    public void setMongodbFilePath(String mongodbFilePath) {
+        this.mongodbFilePath = mongodbFilePath;
+    }
 }

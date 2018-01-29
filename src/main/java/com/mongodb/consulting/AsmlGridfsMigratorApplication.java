@@ -1,9 +1,9 @@
 package com.mongodb.consulting;
 
+import com.mongodb.consulting.resources.GridFSMigratorResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import com.mongodb.consulting.resources.GridFSMigratorResource;
 
 public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigratorConfiguration> {
 
@@ -24,7 +24,7 @@ public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigrato
     @Override
     public void run(final AsmlGridfsMigratorConfiguration configuration,
                     final Environment environment) {
-        final GridFSMigratorResource resource = new GridFSMigratorResource();
+        final GridFSMigratorResource resource = new GridFSMigratorResource(configuration.getMongodbFilePath());
         environment.jersey().register(resource);
     }
 

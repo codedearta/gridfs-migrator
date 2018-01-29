@@ -32,13 +32,13 @@ public class GridFSFileExtractor {
         this.mongoPath = path;
     }
 
-    public OutputStream getFile(String dbname, String filename, String pfx, OutputStream os) throws IOException
+    public OutputStream getFile(String dbname, String id, String pfx, OutputStream os) throws IOException
     {
         final OutputStream baos = os;
 
         //This doesn't need to be a query by ID
 
-        Document fileMeta = getFileMetadataByName(dbname, pfx, filename);
+        Document fileMeta = getFileMetadataById(dbname, pfx, id);
         if(fileMeta == null){
             logger.info("No file found");
             return null;
@@ -162,13 +162,13 @@ public class GridFSFileExtractor {
         return rval;
     }
 
-    private Document getFileMetadataByName(String dbname, String pfx, String filename) {
-        return getFileMetadata(dbname, pfx, new Document("filename",filename));
-    }
-//
-//    private Document getFileMetadataById(String dbname, String pfx, String id) {
-//        return getFileMetadata(dbname, pfx, new Document("_id",id));
+//    private Document getFileMetadataByName(String dbname, String pfx, String filename) {
+//        return getFileMetadata(dbname, pfx, new Document("filename",filename));
 //    }
+
+    private Document getFileMetadataById(String dbname, String pfx, String id) {
+        return getFileMetadata(dbname, pfx, new Document("_id", new ObjectId(id)));
+    }
 
     private Document getFileMetadata(String dbname, String pfx, Document query) {
         MongoDatabase db = mongoClient.getDatabase(dbname);
