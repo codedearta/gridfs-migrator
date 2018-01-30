@@ -86,6 +86,20 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludedGroups>com.mongodb.consulting.IntegrationTest</excludedGroups>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.20.1</version>
         <executions>
@@ -96,6 +110,13 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+          <groups>com.mongodb.consulting.IntegrationTest</groups>
+          <skip>${skipIntegrationTests}</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -158,6 +179,18 @@
       <version>2.6</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.2.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20171018</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -171,8 +204,9 @@
     </dependencies>
   </dependencyManagement>
   <properties>
+    <skipIntegrationTests>true</skipIntegrationTests>
     <dropwizard.version>0.9.3</dropwizard.version>
-    <mainClass>com.mongodb.consulting.unit.AsmlGridfsMigratorApplication</mainClass>
+    <mainClass>com.mongodb.consulting.AsmlGridfsMigratorApplication</mainClass>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

@@ -4,7 +4,6 @@ import com.google.common.base.Optional;
 import com.mongodb.consulting.io.GridFSFileExtractor;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,7 @@ public class GridFSMigratorResource {
     }
 
     @GET
-    public Response loadStreamById(@PathParam("bucketName") final String bucketName, @PathParam("objectId") final String objectIdString) {
+    public Response loadStreamFor(@PathParam("bucketName") final String bucketName, @PathParam("objectId") final String objectIdString) {
         try {
             ObjectId objectId = new ObjectId(objectIdString);
             final Optional<Document> fileMetadata = extractor.getFileMetadataById(bucketName ,objectId);
@@ -54,11 +53,11 @@ public class GridFSMigratorResource {
                 return Response.ok(stream).header(MD5_HEADER_NAME, md5Checksum ).build();
             } else {
                 logger.error(String.format("Requested file wasn't present in mongodb gridfs. dbName: %s, bucketName: %s, objectId: %s", dbName, bucketName, objectId));
-                return Response.status( HttpStatus.NOT_FOUND_404).build();
+                return Response.status(Response.Status.NOT_FOUND).entity(String.format("Requested file wasn't present in mongodb gridfs. dbName: %s, bucketName: %s, objectId: %s", dbName, bucketName, objectId)).build();
             }
         } catch (IllegalArgumentException ex) {
             logger.error(String.format("Invalid objectId: %s", objectIdString));
-            return Response.status( HttpStatus.BAD_REQUEST_400).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(String.format("Invalid objectId: %s", objectIdString)).build();
         }
     }
 }

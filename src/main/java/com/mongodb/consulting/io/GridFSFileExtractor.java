@@ -8,6 +8,9 @@ import org.bson.BsonBinary;
 import org.bson.Document;
 import org.bson.RawBsonDocument;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
@@ -15,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class GridFSFileExtractor {
+    private static final Logger logger = LoggerFactory.getLogger(GridFSFileExtractor.class);
 
     private String mongoPath;
     private MongoDatabase mongoDatabase;
@@ -32,11 +36,17 @@ public class GridFSFileExtractor {
 
     public void getFile(String dbName, String bucketName, Document fileMeta, OutputStream outputStream) throws IOException
     {
-        ObjectId fileId = fileMeta.getObjectId("_id");
+        try {
+            ObjectId fileId = fileMeta.getObjectId( "_id" );
 
-        for(Document chunkMetadataDocument : getChunkMetadata(bucketName, fileId)) {
-            BsonBinary bsonBinary = getBsonBinary( chunkMetadataDocument, dbName);
-            outputStream.write( bsonBinary.getData() );
+            for (Document chunkMetadataDocument : getChunkMetadata( bucketName, fileId )) {
+                BsonBinary bsonBinary = getBsonBinary( chunkMetadataDocument, dbName );
+                outputStream.write( bsonBinary.getData() );
+            }
+        } catch (RuntimeException ioex) {
+            RuntimeException newEx = new RuntimeException( String.format("Possible file corruption in getFile(): dbName:%s, bucketName:%s, fileId:%s", dbName, bucketName, fileMeta.getObjectId( "_id" )), ioex);
+            logger.error(newEx.getMessage(), newEx);
+            throw newEx;
         }
     }
 
