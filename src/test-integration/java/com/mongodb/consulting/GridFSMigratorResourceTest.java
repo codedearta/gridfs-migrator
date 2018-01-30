@@ -1,5 +1,6 @@
-package com.mongodb.consulting.resources;
+package com.mongodb.consulting;
 
+import com.mongodb.consulting.resources.GridFSMigratorResource;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -10,8 +11,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayOutputStream;
@@ -22,16 +23,14 @@ import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static com.mongodb.consulting.resources.GridFSMigratorResource.MD5_HEADER_NAME;
-
+@Category(IntegrationTest.class)
 public class GridFSMigratorResourceTest {
 
     @Test
-    @Ignore
     public void downloadStream() throws URISyntaxException, IOException, NoSuchAlgorithmException {
         try(CloseableHttpClient client = HttpClients.createDefault()) {
             String bucketName = "fs";
-            String objectId = "5a6d85dad4a8c57c979af026JJJJ";
+            String objectId = "5a6d85dad4a8c57c979af026";
             String path = String.format( "%s/%s", bucketName, objectId );
 
             URI uri = new URIBuilder().setScheme( "http" ).setPort( 8080 ).setHost( "localhost" ).setPath(path).build();
@@ -48,7 +47,7 @@ public class GridFSMigratorResourceTest {
                             IOUtils.copy( input, output );
 
                             byte[] bytes = output.toByteArray();
-                            String md5 = response.getFirstHeader( MD5_HEADER_NAME ).getValue();
+                            String md5 = response.getFirstHeader( GridFSMigratorResource.MD5_HEADER_NAME ).getValue();
                             Assert.assertTrue( "md5 hashes don't match", checkMd5( bytes, md5 ) );
                         }
                     }

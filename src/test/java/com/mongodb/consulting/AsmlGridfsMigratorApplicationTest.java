@@ -1,10 +1,11 @@
 package com.mongodb.consulting;
 
+import com.codahale.metrics.health.HealthCheckRegistry;
 import com.mongodb.consulting.resources.GridFSMigratorResource;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.isA;
@@ -14,6 +15,8 @@ import static org.mockito.Mockito.when;
 
 public class AsmlGridfsMigratorApplicationTest {
     private final Environment environment = mock(Environment.class);
+    private final LifecycleEnvironment lifecycle = mock( LifecycleEnvironment.class );
+    private final HealthCheckRegistry healthCheckRegistry = mock( HealthCheckRegistry.class );
     private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
     private final AsmlGridfsMigratorApplication application = new AsmlGridfsMigratorApplication();
     private final AsmlGridfsMigratorConfiguration config = new AsmlGridfsMigratorConfiguration();
@@ -21,11 +24,13 @@ public class AsmlGridfsMigratorApplicationTest {
     @Before
     public void setup() throws Exception {
         config.setMongodbFilePath("/data/db");
+        config.setMongodbDatabaseName("test");
         when(environment.jersey()).thenReturn(jersey);
+        when(environment.lifecycle()).thenReturn(lifecycle);
+        when(environment.healthChecks()).thenReturn(healthCheckRegistry);
     }
 
     @Test
-    @Ignore
     public void registerAGridFSMigratorResource() throws Exception {
         application.run(config, environment);
         verify(jersey).register(isA(GridFSMigratorResource.class));

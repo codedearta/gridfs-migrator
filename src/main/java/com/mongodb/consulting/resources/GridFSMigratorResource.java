@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class GridFSMigratorResource {
     private static final Logger logger = LoggerFactory.getLogger(GridFSMigratorResource.class);
     private static final String METADATA_MD5_FIELDNAME = "md5";
-    static final String MD5_HEADER_NAME = "md5-checksum";
+    public static final String MD5_HEADER_NAME = "md5-checksum";
 
     private GridFSFileExtractor extractor;
     private String dbName;

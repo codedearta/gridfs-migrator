@@ -55,6 +55,7 @@ public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigrato
         String mongodbDatabaseName = configuration.getMongodbDatabaseName();
         MongoDatabase database = mongoClient.getDatabase( mongodbDatabaseName );
         GridFSFileExtractor extractor = new GridFSFileExtractor(database, configuration.getMongodbFilePath());
+
         final GridFSMigratorResource resource = new GridFSMigratorResource(extractor, mongodbDatabaseName);
         environment.jersey().register(resource);
     }
