@@ -8,12 +8,11 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class GridFSMigratorResourceTest {
-
 
     @Test
     public void loadStreamByIdShouldReturnStatus200(){
@@ -21,30 +20,28 @@ public class GridFSMigratorResourceTest {
         ObjectId objectId = new ObjectId();
         when(gfsExtractor.getFileMetadataById( "fs", objectId )).thenReturn( Optional.of(new Document()));
 
-        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor, "test");
+        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor);
 
         Response response = resource.loadStreamFor( "fs", objectId.toString() );
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
     }
-
 
     @Test
     public void loadStreamForWithInvalidIdShouldReturnStatus400(){
         GridFSFileExtractor gfsExtractor = mock( GridFSFileExtractor.class );
-        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor, "test");
+        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor);
         String objectIdString = "123235Blahsdf123";
 
         Response response = resource.loadStreamFor( "fs", objectIdString );
 
-        assertEquals(response.getStatus(), 400);
-        assertEquals(response.getEntity().toString(), "Invalid objectId: " + objectIdString);
+        assertEquals(400, response.getStatus());
+        assertEquals("Invalid objectId: " + objectIdString, response.getEntity().toString());
     }
 
     @Test
     public void loadStreamForWithInvalidBucketNameShouldReturnStatus404(){
         GridFSFileExtractor gfsExtractor = mock( GridFSFileExtractor.class );
-        String dbName = "test";
-        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor, dbName );
+        GridFSMigratorResource resource = new GridFSMigratorResource(gfsExtractor);
         ObjectId objectId = new ObjectId();
         String objectIdString = objectId.toString();
         String bucketName = "fantasy";
@@ -53,9 +50,7 @@ public class GridFSMigratorResourceTest {
         Response response = resource.loadStreamFor( bucketName, objectIdString );
 
 
-        assertEquals(response.getStatus(), 404);
-        assertEquals(response.getEntity().toString(), String.format("Requested file wasn't present in mongodb gridfs. dbName: %s, bucketName: %s, objectId: %s", dbName, bucketName, objectIdString));
+        assertEquals(404, response.getStatus());
+        assertEquals(response.getEntity().toString(), String.format("Requested file wasn't present in mongodb gridfs. bucketName: %s, objectId: %s", bucketName, objectIdString));
     }
-
-
 }

@@ -58,7 +58,7 @@ public class GridFSMigratorResourceTest {
                         }
                     }
                 } else {
-                    Assert.fail(status.getReasonPhrase());
+                    Assert.fail(status.getReasonPhrase() + " - " + status.getStatusCode());
                 }
             }
         }
@@ -85,7 +85,7 @@ public class GridFSMigratorResourceTest {
 
                             byte[] bytes = output.toByteArray();
                             String md5 = response.getFirstHeader( GridFSMigratorResource.MD5_HEADER_NAME ).getValue();
-//                            Assert.assertTrue( "md5 hashes don't match", checkMd5( bytes, md5 ) );
+                            Assert.assertTrue( "md5 hashes don't match", checkMd5( bytes, md5 ) );
                         }
                     }
                 } else {
@@ -105,7 +105,7 @@ public class GridFSMigratorResourceTest {
             JSONObject jsonobject = jsonarray.getJSONObject(i);
             JSONObject id = jsonobject.getJSONObject( "_id" );
             String oid = id.getString( "$oid" );
-            //loadFile( oid );
+            loadFile( oid );
         }
     }
 

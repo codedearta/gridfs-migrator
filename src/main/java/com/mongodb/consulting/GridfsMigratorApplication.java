@@ -15,10 +15,10 @@ import io.dropwizard.setup.Environment;
 
 import java.util.Arrays;
 
-public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigratorConfiguration> {
+public class GridfsMigratorApplication extends Application<GridfsMigratorConfiguration> {
 
     public static void main(final String[] args) throws Exception {
-        new AsmlGridfsMigratorApplication().run(args);
+        new GridfsMigratorApplication().run(args);
     }
 
     @Override
@@ -27,12 +27,12 @@ public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigrato
     }
 
     @Override
-    public void initialize(final Bootstrap<AsmlGridfsMigratorConfiguration> bootstrap) {
+    public void initialize(final Bootstrap<GridfsMigratorConfiguration> bootstrap) {
         // TODO: application initialization
     }
 
     @Override
-    public void run(final AsmlGridfsMigratorConfiguration configuration,
+    public void run(final GridfsMigratorConfiguration configuration,
                     final Environment environment) {
 
         MongoClient mongoClient;
@@ -53,10 +53,10 @@ public class AsmlGridfsMigratorApplication extends Application<AsmlGridfsMigrato
         environment.healthChecks().register("MongoDB", new MongoDBHealthCheck(mongoClient));
 
         String mongodbDatabaseName = configuration.getMongodbDatabaseName();
-        MongoDatabase database = mongoClient.getDatabase( mongodbDatabaseName );
-        GridFSFileExtractor extractor = new GridFSFileExtractor(database, configuration.getMongodbFilePath());
+        MongoDatabase mongoDatabase = mongoClient.getDatabase( mongodbDatabaseName );
+        GridFSFileExtractor extractor = new GridFSFileExtractor(mongoDatabase, configuration.getMongodbFilePath());
 
-        final GridFSMigratorResource resource = new GridFSMigratorResource(extractor, mongodbDatabaseName);
+        final GridFSMigratorResource resource = new GridFSMigratorResource(extractor);
         environment.jersey().register(resource);
     }
 

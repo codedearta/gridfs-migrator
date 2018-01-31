@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>mongodb.com</groupId>
   <artifactId>gridfs-migrator</artifactId>
-  <name>asml-gridfs-migrator</name>
+  <name>gridfs-migrator</name>
   <version>1.0-SNAPSHOT</version>
   <prerequisites>
     <maven>3.0.0</maven>
@@ -206,7 +206,7 @@
   <properties>
     <skipIntegrationTests>true</skipIntegrationTests>
     <dropwizard.version>0.9.3</dropwizard.version>
-    <mainClass>com.mongodb.consulting.AsmlGridfsMigratorApplication</mainClass>
+    <mainClass>com.mongodb.consulting.GridfsMigratorApplication</mainClass>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

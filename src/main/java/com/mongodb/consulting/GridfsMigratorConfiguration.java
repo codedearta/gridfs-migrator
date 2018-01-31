@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-public class AsmlGridfsMigratorConfiguration extends Configuration {
+public class GridfsMigratorConfiguration extends Configuration {
 
     @NotEmpty private String mongodbFilePath = "/data/db";
     private String mongodbUser;

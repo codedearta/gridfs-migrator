@@ -13,13 +13,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AsmlGridfsMigratorApplicationTest {
+public class GridfsMigratorApplicationTest {
     private final Environment environment = mock(Environment.class);
     private final LifecycleEnvironment lifecycle = mock( LifecycleEnvironment.class );
     private final HealthCheckRegistry healthCheckRegistry = mock( HealthCheckRegistry.class );
     private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
-    private final AsmlGridfsMigratorApplication application = new AsmlGridfsMigratorApplication();
-    private final AsmlGridfsMigratorConfiguration config = new AsmlGridfsMigratorConfiguration();
+    private final GridfsMigratorApplication application = new GridfsMigratorApplication();
+    private final GridfsMigratorConfiguration config = new GridfsMigratorConfiguration();
 
     @Before
     public void setup() throws Exception {

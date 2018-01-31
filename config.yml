@@ -10,7 +10,7 @@ logging:
 mongodbFilePath: /Users/sepp/Customers/asml/fileExporter/data
 mongodbHostname: localhost
 mongodbPort: 27017
-mongodbDatabaseName: test
+mongodbDatabaseName: contentstore
 mongodbUser:
 mongodbPassword:
 mongodbAuthenticationDb: admin

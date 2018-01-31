@@ -1,6 +1,6 @@
-# asml-gridfs-migrator
+# gridfs-migrator
 
-How to start the AsmlGridfsMigratorApplication
+How to start the GridfsMigratorApplication
 ---
 
 1. Run `mvn clean install` to build your application
