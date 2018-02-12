@@ -36,7 +36,7 @@ public class GridFSMigratorResourceTest {
     public void downloadStream() throws URISyntaxException, IOException, NoSuchAlgorithmException {
         try(CloseableHttpClient client = HttpClients.createDefault()) {
             String bucketName = "fs";
-            String objectId = "5a8167419d959494d8c09c2e";
+            String objectId = "5a819aa5c120191703303016";
             String path = String.format( "%s/%s", bucketName, objectId );
 
             URI uri = new URIBuilder().setScheme( "http" ).setPort( 8080 ).setHost( "localhost" ).setPath(path).build();
