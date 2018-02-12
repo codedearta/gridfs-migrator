@@ -7,7 +7,7 @@ logging:
       currentLogFilename: ./logs/GridFSFileExtractor.log
       archivedLogFilenamePattern: ./logs/GridFSFileExtractor-%d.log.gz
       archivedFileCount: 5
-mongodbFilePath: /Users/sepp/Customers/asml/fileExporter/data
+mongodbFilePath: /data/db
 mongodbHostname: localhost
 mongodbPort: 27017
 mongodbDatabaseName: contentstore

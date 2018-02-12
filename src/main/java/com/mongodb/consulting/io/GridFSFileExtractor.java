@@ -41,10 +41,17 @@ public class GridFSFileExtractor {
         try {
             ObjectId fileId = fileMeta.getObjectId( "_id" );
 
-            for (Document chunkMetadataDocument : getChunkMetadata( bucketName, fileId )) {
-                BsonBinary bsonBinary = getBsonBinary( chunkMetadataDocument);
-                outputStream.write( bsonBinary.getData() );
+            // Counting the chunks is necessary, due to a bug in MongoDB 2.4. When querying for the $diskLoc it only returns it for the first 100 docs.
+            long chunksCount = getChunkCount(bucketName, fileId);
+            for(long i = 0; i < chunksCount; i += 100) {
+                FindIterable<Document> chunkMetadata = getChunkMetadata( bucketName, fileId, i, i+99);
+                for (Document chunkMetadataDocument : chunkMetadata) {
+
+                    BsonBinary bsonBinary = getBsonBinary( chunkMetadataDocument);
+                    outputStream.write( bsonBinary.getData() );
+                }
             }
+
         } catch (RuntimeException ioex) {
             RuntimeException newEx = new RuntimeException( String.format("Possible file corruption in getFile(): dbName:%s, bucketName:%s, fileId:%s", this.dbName, bucketName, fileMeta.getObjectId( "_id" )), ioex);
             logger.error(newEx.getMessage(), newEx);
@@ -52,9 +59,15 @@ public class GridFSFileExtractor {
         }
     }
 
-    private FindIterable<Document> getChunkMetadata(String bucketName, ObjectId id) {
+    private long getChunkCount(String bucketName, ObjectId id) {
         MongoCollection<Document> collection = mongoDatabase.getCollection(bucketName + ".chunks", Document.class);
-        Document query = new Document("$query",new Document("files_id",id)).append("$showDiskLoc", 1);
+        Document query = new Document("files_id",id);
+        return collection.count(query);
+    }
+
+    private FindIterable<Document> getChunkMetadata(String bucketName, ObjectId id, long lowerBound, long upperBound) {
+        MongoCollection<Document> collection = mongoDatabase.getCollection(bucketName + ".chunks", Document.class);
+        Document query = new Document("$query",new Document("files_id",id).append("n", new Document("$gte", lowerBound).append( "$lte",upperBound))).append("$showDiskLoc", 1);
         Document projection = new Document("_id",0).append("n", 1);
         return collection.find(query).projection(projection);
     }

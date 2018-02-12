@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
+    <!--<prerequisites>-->
+        <!--<maven>3.0.0</maven>-->
+    <!--</prerequisites>-->
 
     <groupId>mongodb.com</groupId>
     <artifactId>gridfs-migrator</artifactId>
@@ -73,12 +73,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
